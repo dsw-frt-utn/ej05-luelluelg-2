@@ -54,6 +54,24 @@ public class Persistencia
         return Vehiculos.Find(v => v.GetPatente() == patente);
     }
 
+    public static List<Sucursal> GetSucursales()
+    {
+        return Sucursales;
+    }
+
+    public static bool AgregarVehiculo(Vehiculo vehiculo)
+    {
+        if (Vehiculos.Any(v => v.GetPatente() == vehiculo.GetPatente()))
+            return false; // patente duplicada
+        Vehiculos.Add(vehiculo);
+        return true;
+    }
+
+
+
+
+
+
     public static void InicializarDatos()
     {
         InicializarResponsables();

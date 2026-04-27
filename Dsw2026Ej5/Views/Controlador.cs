@@ -32,4 +32,44 @@ public class Controlador
         }
         return (consumoElectricos, consumoCombustible);
     }
+
+
+    public static (bool ok, string mensaje) AgregarVehiculoElectrico(
+      string patente, string marca, string modelo, int anio,
+      double capacidadCarga, string codigoSucursal, double kwhBase)
+    {
+        Sucursal? sucursal = Persistencia.GetSucursales().Find(s => s.GetCodigo() == codigoSucursal);
+        if (sucursal == null)
+            return (false, "Sucursal no encontrada.");
+
+        VehiculoElectrico v = new VehiculoElectrico(patente, marca, modelo, anio, capacidadCarga, sucursal, kwhBase);
+        bool agregado = Persistencia.AgregarVehiculo(v);
+        return agregado
+            ? (true, "Vehículo eléctrico agregado correctamente.")
+            : (false, "Ya existe un vehículo con esa patente.");
+    }
+
+    // método para agregar vehículo a combustible
+    public static (bool ok, string mensaje) AgregarVehiculoCombustible(
+        string patente, string marca, string modelo, int anio,
+        double capacidadCarga, string codigoSucursal,
+        double kmPorLitro, double litrosExtra)
+    {
+        Sucursal? sucursal = Persistencia.GetSucursales().Find(s => s.GetCodigo() == codigoSucursal);
+        if (sucursal == null)
+            return (false, "Sucursal no encontrada.");
+
+        VehiculoCombustible v = new VehiculoCombustible(patente, marca, modelo, anio, capacidadCarga, sucursal, kmPorLitro, litrosExtra);
+        bool agregado = Persistencia.AgregarVehiculo(v);
+        return agregado
+            ? (true, "Vehículo a combustible agregado correctamente.")
+            : (false, "Ya existe un vehículo con esa patente.");
+    }
+
+    public static List<string> GetCodigosSucursales()
+    {
+        return Persistencia.GetSucursales().Select(s => s.GetCodigo()).ToList();
+    }
+
+
 }
