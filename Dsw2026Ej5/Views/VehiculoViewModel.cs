@@ -75,4 +75,10 @@ public class VehiculoViewModel
     {
         return kmARecorrer;
     }
+
+
+    public void SetKmARecorrer(double km)
+    {
+        kmARecorrer = km;
+    }
 }
